@@ -21,7 +21,7 @@ interface JoinAIMButtonProps {
 const JoinAIMButton: React.FC<JoinAIMButtonProps> = ({
   href = "/membership/apply",
   size = "default",
-  variant = "default",
+  variant = "outline",
   className = "bg-transparent",
   text = "Join AIM",
   onClick,
