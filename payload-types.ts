@@ -68,6 +68,9 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    media: Media;
+    members: Member;
+    memberships: Membership;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -75,6 +78,9 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    members: MembersSelect<false> | MembersSelect<true>;
+    memberships: MembershipsSelect<false> | MembershipsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -117,6 +123,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  name?: string | null;
+  role?: ('admin' | 'staff' | 'member') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -137,14 +145,134 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members".
+ */
+export interface Member {
+  id: number;
+  status?: ('SUBMITTED' | 'PENDING_PAYMENT' | 'PAYMENT_SUBMITTED' | 'ACTIVE' | 'REJECTED') | null;
+  membershipType: 'associate' | 'allied' | 'premier';
+  companyName: string;
+  companyType: string;
+  companyCategory: string;
+  typeOfCompany: string;
+  city: string;
+  state: string;
+  address: string;
+  pincode: string;
+  website?: string | null;
+  gstin: string;
+  tanNo?: string | null;
+  panNo: string;
+  yearOfEstablishment: string;
+  legalEntity: string;
+  globalHeadquarters?: string | null;
+  socialMediaHandle?: string | null;
+  contactDesignation: string;
+  contactTitle: string;
+  contactFirstName: string;
+  contactLastName: string;
+  contactMobile: string;
+  contactEmail: string;
+  headDesignation: string;
+  headTitle: string;
+  headFirstName: string;
+  headLastName: string;
+  headMobile: string;
+  headEmail: string;
+  companyProfile: string;
+  areasOfInterest?: ('manufacturing' | 'it-services' | 'consultancy')[] | null;
+  totalEmployees?: string | null;
+  employeeYear?: string | null;
+  totalRevenue?: string | null;
+  revenueYear?: string | null;
+  businessType?: string | null;
+  turnover?: string | null;
+  registrationNumber?: string | null;
+  gstNumber?: string | null;
+  udyamNumber?: string | null;
+  factoryRegistration?: string | null;
+  powerConnection?: string | null;
+  pollutionClearance?: string | null;
+  description?: string | null;
+  memorandumArticle: number | Media;
+  auditedBalanceSheet: number | Media;
+  createdBy?: (number | null) | User;
+  /**
+   * Membership fee applicable for this application
+   */
+  feeAmount?: number | null;
+  /**
+   * Payment reference ID from PayU
+   */
+  paymentReferenceId?: string | null;
+  paymentVerifiedAt?: string | null;
+  activatedAt?: string | null;
+  rejectionReason?: string | null;
+  rejectedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage the 3 membership types and their pricing. Only Associate, Allied, and Premier memberships are allowed.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "memberships".
+ */
+export interface Membership {
+  id: number;
+  /**
+   * Unique identifier for the membership type (only 3 types allowed)
+   */
+  type: 'associate' | 'allied' | 'premier';
+  /**
+   * Membership fee in INR
+   */
+  price: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
   id: number;
-  document?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'members';
+        value: number | Member;
+      } | null)
+    | ({
+        relationTo: 'memberships';
+        value: number | Membership;
+      } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
@@ -192,6 +320,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -208,6 +338,96 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members_select".
+ */
+export interface MembersSelect<T extends boolean = true> {
+  status?: T;
+  membershipType?: T;
+  companyName?: T;
+  companyType?: T;
+  companyCategory?: T;
+  typeOfCompany?: T;
+  city?: T;
+  state?: T;
+  address?: T;
+  pincode?: T;
+  website?: T;
+  gstin?: T;
+  tanNo?: T;
+  panNo?: T;
+  yearOfEstablishment?: T;
+  legalEntity?: T;
+  globalHeadquarters?: T;
+  socialMediaHandle?: T;
+  contactDesignation?: T;
+  contactTitle?: T;
+  contactFirstName?: T;
+  contactLastName?: T;
+  contactMobile?: T;
+  contactEmail?: T;
+  headDesignation?: T;
+  headTitle?: T;
+  headFirstName?: T;
+  headLastName?: T;
+  headMobile?: T;
+  headEmail?: T;
+  companyProfile?: T;
+  areasOfInterest?: T;
+  totalEmployees?: T;
+  employeeYear?: T;
+  totalRevenue?: T;
+  revenueYear?: T;
+  businessType?: T;
+  turnover?: T;
+  registrationNumber?: T;
+  gstNumber?: T;
+  udyamNumber?: T;
+  factoryRegistration?: T;
+  powerConnection?: T;
+  pollutionClearance?: T;
+  description?: T;
+  memorandumArticle?: T;
+  auditedBalanceSheet?: T;
+  createdBy?: T;
+  feeAmount?: T;
+  paymentReferenceId?: T;
+  paymentVerifiedAt?: T;
+  activatedAt?: T;
+  rejectionReason?: T;
+  rejectedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "memberships_select".
+ */
+export interface MembershipsSelect<T extends boolean = true> {
+  type?: T;
+  price?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

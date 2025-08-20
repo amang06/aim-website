@@ -61,9 +61,9 @@ const Header = () => {
       {/* Announcement Banner */}
       <div className="bg-primary-600 text-white py-2 px-4 text-center text-sm">
         <p>
-          🎉 Join AIM&apos;s Annual Conference 2024 - Register Now!
+          🎉 Join AIM&apos;s Annual Conference - Register Now!
           <Link
-            href="/news/annual-conference-2024"
+            href="/news/annual-conference"
             className="underline ml-2 hover:text-primary-100"
           >
             Learn More
@@ -132,25 +132,6 @@ const Header = () => {
 
           {/* Search and Social Icons */}
           <div className="hidden lg:flex items-center space-x-3">
-            <button
-              type="button"
-              className="text-gray-400 hover:text-gray-500"
-              aria-label="Search"
-            >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
 
             <div className="flex space-x-2">
               <a

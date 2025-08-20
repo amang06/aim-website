@@ -16,7 +16,7 @@ export default function MembershipPage() {
       <PageHeader
         title="Join AIM Membership"
         subtitle="Empowering Indian Manufacturers Together"
-        description="Become part of India&apos;s premier manufacturing association and unlock opportunities for growth, networking, and advocacy."
+        description="Become part of India's premier manufacturing association and unlock opportunities for growth, networking, and advocacy."
         ctaText="Apply Now"
         ctaHref="/membership/apply"
         height="large"
@@ -84,8 +84,8 @@ export default function MembershipPage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  Your voice matters. We represent manufacturers&apos; interests at
-                  the highest levels of government and policy-making.
+                  Your voice matters. We represent manufacturers&apos; interests
+                  at the highest levels of government and policy-making.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -128,8 +128,8 @@ export default function MembershipPage() {
               Membership Categories
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose the membership category that best fits your organization&apos;s
-              profile and requirements.
+              Choose the membership category that best fits your
+              organization&apos;s profile and requirements.
             </p>
           </div>
 
@@ -137,7 +137,7 @@ export default function MembershipPage() {
             <Card className="border-primary-200 hover:shadow-lg transition-shadow">
               <CardHeader className="bg-primary-50">
                 <CardTitle className="text-2xl text-primary-900">
-                  Ordinary Members
+                  Associate Members
                 </CardTitle>
                 <CardDescription className="text-primary-700">
                   For manufacturing and processing companies
@@ -167,7 +167,7 @@ export default function MembershipPage() {
             <Card className="border-green-200 hover:shadow-lg transition-shadow">
               <CardHeader className="bg-green-50">
                 <CardTitle className="text-2xl text-green-900">
-                  Associate Members
+                  Allied Members
                 </CardTitle>
                 <CardDescription className="text-green-700">
                   For service providers and consultants
@@ -197,7 +197,7 @@ export default function MembershipPage() {
             <Card className="border-purple-200 hover:shadow-lg transition-shadow">
               <CardHeader className="bg-purple-50">
                 <CardTitle className="text-2xl text-purple-900">
-                  Corporate Members
+                  Premier Members
                 </CardTitle>
                 <CardDescription className="text-purple-700">
                   For large organizations and MNCs
@@ -234,8 +234,8 @@ export default function MembershipPage() {
             Ready to Join AIM?
           </h2>
           <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-            Start your journey with AIM today and become part of India&apos;s most
-            influential manufacturing association.
+            Start your journey with AIM today and become part of India&apos;s
+            most influential manufacturing association.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <LearnMoreButton

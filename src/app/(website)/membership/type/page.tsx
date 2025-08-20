@@ -9,8 +9,24 @@ import {
 } from "@/components/ui/Card";
 import LearnMoreButton from "@/components/ui/LearnMoreButton";
 import JoinAIMButton from "@/components/ui/JoinAIMButton";
+import { getMemberships, formatPrice } from "@/lib/memberships";
 
-export default function MembershipTypesPage() {
+export default async function MembershipTypesPage() {
+  const memberships = await getMemberships();
+
+  // Create a map for easy lookup
+  const membershipMap = new Map(memberships.map((m) => [m.type, m]));
+
+  const associateMembership = membershipMap.get("associate");
+  const alliedMembership = membershipMap.get("allied");
+  const premierMembership = membershipMap.get("premier");
+
+  // Fallback prices if not found in database
+  const fallbackPrices = {
+    associate: 5000,
+    allied: 3000,
+    premier: 15000,
+  };
   return (
     <div className="min-h-screen">
       <PageHeader
@@ -31,12 +47,24 @@ export default function MembershipTypesPage() {
                 Category A
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Ordinary Members
+                Associate Members
               </h2>
               <p className="text-lg text-gray-600 mb-6">
                 For companies and firms engaged in manufacturing, processing,
-                assembling, and other industrial activities.
+                assembling, and other industrial activities. Includes full voting rights, 
+                government advocacy access, priority event access, networking opportunities, 
+                and industry reports.
               </p>
+              <div className="mb-6">
+                <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-lg">
+                  <span className="text-lg font-semibold">
+                    {formatPrice(
+                      associateMembership?.price || fallbackPrices.associate
+                    )}
+                  </span>
+                  <span className="text-sm ml-2">per year</span>
+                </div>
+              </div>
 
               <div className="space-y-4 mb-8">
                 <h3 className="text-xl font-semibold text-gray-900">
@@ -108,7 +136,7 @@ export default function MembershipTypesPage() {
                 />
                 <JoinAIMButton
                   href="/membership/apply"
-                  text="Apply as Ordinary Member"
+                  text="Apply as Associate Member"
                 />
               </div>
             </div>
@@ -117,7 +145,7 @@ export default function MembershipTypesPage() {
               <Card className="bg-white shadow-lg">
                 <CardHeader className="bg-primary-50 border-b">
                   <CardTitle className="text-2xl text-primary-900">
-                    Ordinary Member Benefits
+                    Associate Member Benefits
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -223,12 +251,24 @@ export default function MembershipTypesPage() {
                 Category B
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Associate Members
+                Allied Members
               </h2>
               <p className="text-lg text-gray-600 mb-6">
                 For companies and firms engaged in activities other than
-                manufacturing, including consultancy and professional services.
+                manufacturing, including consultancy and professional services. 
+                Includes networking events, business development opportunities, 
+                industry insights, training programs, and forum representation.
               </p>
+              <div className="mb-6">
+                <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-lg">
+                  <span className="text-lg font-semibold">
+                    {formatPrice(
+                      alliedMembership?.price || fallbackPrices.allied
+                    )}
+                  </span>
+                  <span className="text-sm ml-2">per year</span>
+                </div>
+              </div>
 
               <div className="space-y-4 mb-8">
                 <h3 className="text-xl font-semibold text-gray-900">
@@ -283,7 +323,7 @@ export default function MembershipTypesPage() {
                 />
                 <JoinAIMButton
                   href="/membership/apply"
-                  text="Apply as Associate Member"
+                  text="Apply as Allied Member"
                 />
               </div>
             </div>
@@ -292,7 +332,7 @@ export default function MembershipTypesPage() {
               <Card className="bg-white shadow-lg">
                 <CardHeader className="bg-green-50 border-b">
                   <CardTitle className="text-2xl text-green-900">
-                    Associate Member Benefits
+                    Allied Member Benefits
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -394,12 +434,24 @@ export default function MembershipTypesPage() {
                 Category C
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Corporate Members
+                Premier Members
               </h2>
               <p className="text-lg text-gray-600 mb-6">
                 Premium membership for large organizations and multinational
-                companies with significant turnover.
+                companies with significant turnover. Includes all Associate benefits 
+                plus priority government access, exclusive events, custom research, 
+                and leadership opportunities.
               </p>
+              <div className="mb-6">
+                <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-lg">
+                  <span className="text-lg font-semibold">
+                    {formatPrice(
+                      premierMembership?.price || fallbackPrices.premier
+                    )}
+                  </span>
+                  <span className="text-sm ml-2">per year</span>
+                </div>
+              </div>
 
               <div className="space-y-4 mb-8">
                 <h3 className="text-xl font-semibold text-gray-900">
@@ -450,7 +502,7 @@ export default function MembershipTypesPage() {
                 />
                 <JoinAIMButton
                   href="/membership/apply"
-                  text="Apply as Corporate Member"
+                  text="Apply as Premier Member"
                 />
               </div>
             </div>
@@ -459,7 +511,7 @@ export default function MembershipTypesPage() {
               <Card className="bg-white shadow-lg">
                 <CardHeader className="bg-purple-50 border-b">
                   <CardTitle className="text-2xl text-purple-900">
-                    Corporate Member Benefits
+                    Premier Member Benefits
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -478,7 +530,7 @@ export default function MembershipTypesPage() {
                           />
                         </svg>
                       </div>
-                      <span>All benefits of Ordinary membership</span>
+                      <span>All benefits of Associate membership</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-3 mt-0.5">

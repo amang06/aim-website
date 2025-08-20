@@ -131,7 +131,7 @@ const latestNews = [
 
 const keyStats = [
   {
-    number: "50,000+",
+    number: "2,000+",
     label: "Member Companies",
     description: "Manufacturers across India",
     icon: (
@@ -171,7 +171,7 @@ const keyStats = [
     ),
   },
   {
-    number: "500+",
+    number: "120+",
     label: "Events Annually",
     description: "Networking & training programs",
     icon: (
@@ -191,7 +191,7 @@ const keyStats = [
     ),
   },
   {
-    number: "30+",
+    number: "21+",
     label: "States Covered",
     description: "Pan-India presence",
     icon: (
