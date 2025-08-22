@@ -11,7 +11,7 @@ type AuthUser = { id: number; role?: "admin" | "staff" | "member" };
 
 const isAdmin = ({ req }: AccessArgs): boolean => {
   const user = req.user as AuthUser | undefined;
-  return !!user && user.role === "admin";
+  return !!user && (user.role === "admin" || user.role === "staff");
 };
 
 const Members: CollectionConfig = {
@@ -185,6 +185,24 @@ const Members: CollectionConfig = {
       name: "rejectedAt",
       type: "date",
       admin: { position: "sidebar" },
+    },
+    {
+      name: "certificateSent",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        position: "sidebar",
+        description:
+          "Whether the membership certificate has been sent to the member",
+      },
+    },
+    {
+      name: "certificateSentAt",
+      type: "date",
+      admin: {
+        position: "sidebar",
+        description: "Date when the membership certificate was sent",
+      },
     },
   ],
 };

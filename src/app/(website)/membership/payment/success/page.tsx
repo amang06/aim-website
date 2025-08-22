@@ -43,7 +43,7 @@ export default function PaymentSuccessPage() {
 
   const fetchMemberData = async () => {
     try {
-      const response = await fetch(`/api/members/${memberId}`);
+      const response = await fetch(`/api/member-info/${memberId}`);
       if (response.ok) {
         const data = await response.json();
         setMemberData(data);

@@ -7,9 +7,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "send-certificates": "tsx scripts/send-certificates.ts",
+    "send-certificates:dev": "tsx --env-file=.env.local scripts/send-certificates.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.873.0",
     "@payloadcms/db-postgres": "^3.50.0",
     "@payloadcms/next": "^3.50.0",
     "@payloadcms/richtext-lexical": "^3.50.0",
@@ -40,6 +43,7 @@
     "eslint-config-next": "15.4.2",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.4",
     "typescript": "^5"
   }
 }

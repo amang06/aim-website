@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "src/app/(website)/api/admin/send-certificates/route.ts": {
+      "maxDuration": 60
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/admin/send-certificates",
+      "schedule": "0 */2 * * *"
+    }
+  ]
+}

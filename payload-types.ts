@@ -226,6 +226,14 @@ export interface Member {
   activatedAt?: string | null;
   rejectionReason?: string | null;
   rejectedAt?: string | null;
+  /**
+   * Whether the membership certificate has been sent to the member
+   */
+  certificateSent?: boolean | null;
+  /**
+   * Date when the membership certificate was sent
+   */
+  certificateSentAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -412,6 +420,8 @@ export interface MembersSelect<T extends boolean = true> {
   activatedAt?: T;
   rejectionReason?: T;
   rejectedAt?: T;
+  certificateSent?: T;
+  certificateSentAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
