@@ -58,9 +58,7 @@ export interface ApplyFormData {
   pollutionClearance: string;
   description: string;
 
-  // Documents
-  memorandumArticle: File | null;
-  auditedBalanceSheet: File | null;
+  // Documents section removed
 
   // Terms & Conditions
   codeOfConduct: boolean;

@@ -143,19 +143,7 @@ const Members: CollectionConfig = {
     { name: "pollutionClearance", type: "text" },
     { name: "description", type: "textarea" },
 
-    // Documents
-    {
-      name: "memorandumArticle",
-      type: "upload",
-      relationTo: "media",
-      required: false,
-    },
-    {
-      name: "auditedBalanceSheet",
-      type: "upload",
-      relationTo: "media",
-      required: false,
-    },
+    // Documents section removed - memorandumArticle and auditedBalanceSheet fields
 
     // Linkage
     {

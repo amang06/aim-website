@@ -54,12 +54,14 @@ export async function POST(request: NextRequest) {
     });
 
     // Redirect to appropriate page
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SERVER_URL || request.nextUrl.origin;
     const redirectUrl =
       status === "PAYMENT_SUBMITTED"
-        ? `/membership/payment/success?memberId=${memberId}`
-        : `/membership/payment/failure?memberId=${memberId}`;
+        ? `${baseUrl}/membership/payment/success?memberId=${memberId}`
+        : `${baseUrl}/membership/payment/failure?memberId=${memberId}`;
 
-    return NextResponse.redirect(new URL(redirectUrl, request.url));
+    return NextResponse.redirect(redirectUrl);
   } catch (error) {
     console.error("Payment callback error:", error);
     return NextResponse.json(

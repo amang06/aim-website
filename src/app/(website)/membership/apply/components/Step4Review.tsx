@@ -48,7 +48,7 @@ export default function Step5Review({
             </p>
             {membershipPrice && (
               <p className="text-green-600 font-semibold text-lg mt-2">
-                Membership Fee: ₹{membershipPrice.toLocaleString()}
+                Membership Fee: ₹{membershipPrice.toLocaleString()} + GST (18%)
               </p>
             )}
           </div>
@@ -257,7 +257,6 @@ export default function Step5Review({
               </div>
             </div>
           </div>
-
         </CardContent>
       </Card>
 

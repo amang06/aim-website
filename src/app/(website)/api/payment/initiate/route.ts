@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMembershipByType, formatPrice } from "@/lib/memberships";
+import {
+  getMembershipByType,
+  formatPrice,
+  calculateTotalWithGST,
+} from "@/lib/memberships";
 import { createPayUPaymentData, getPayUUrl, getPayUConfig } from "@/lib/payu";
 import { getPayload } from "payload";
 import config from "@payload-config";
@@ -37,15 +41,21 @@ export async function POST(request: NextRequest) {
     // Create member record in database first
     const payload = await getPayload({ config });
 
+    // Calculate total amount including GST
+    const basePrice = membership.price;
+    const totalAmount = calculateTotalWithGST(basePrice);
+
     const memberDataToSave = {
       ...memberData,
       membershipType,
       status: "SUBMITTED",
+      feeAmount: totalAmount, // Save the total amount including GST
     };
 
     console.log("Creating member with data:", {
       membershipType,
       status: "SUBMITTED",
+      feeAmount: totalAmount,
     });
 
     const member = await payload.create({
@@ -66,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     const paymentData = createPayUPaymentData(
       membership.type,
-      membership.price,
+      totalAmount, // Use total amount including GST
       {
         firstName: memberData.contactFirstName,
         lastName: memberData.contactLastName,
@@ -75,7 +85,7 @@ export async function POST(request: NextRequest) {
       },
       successUrl,
       failureUrl,
-      member.id
+      String(member.id)
     );
 
     // Add PayU merchant details
@@ -89,8 +99,9 @@ export async function POST(request: NextRequest) {
       memberId: member.id,
       paymentData: payuFormData,
       payuUrl: getPayUUrl(),
-      amount: membership.price,
-      formattedAmount: formatPrice(membership.price),
+      amount: totalAmount,
+      baseAmount: basePrice,
+      formattedAmount: formatPrice(basePrice), // This will show "₹X + GST (18%)"
     });
   } catch (error) {
     console.error("Payment initiation error:", error);

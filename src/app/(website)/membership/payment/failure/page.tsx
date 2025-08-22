@@ -179,7 +179,7 @@ export default function PaymentFailurePage() {
                       Amount:
                     </span>
                     <p className="text-gray-900 font-semibold">
-                      ₹{memberData.feeAmount?.toLocaleString()}
+                      ₹{memberData.feeAmount?.toLocaleString()} + GST (18%)
                     </p>
                   </div>
                   <div>
@@ -243,10 +243,10 @@ export default function PaymentFailurePage() {
                     <span className="text-blue-800">
                       Email us at{" "}
                       <a
-                        href="mailto:support@aim.org.in"
+                        href="mailto:support@aim.ind.in"
                         className="font-semibold hover:underline"
                       >
-                        support@aim.org.in
+                        support@aim.ind.in
                       </a>
                     </span>
                   </div>
@@ -271,4 +271,3 @@ export default function PaymentFailurePage() {
     </div>
   );
 }
-

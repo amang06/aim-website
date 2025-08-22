@@ -101,9 +101,7 @@ export default function ApplyPage() {
     pollutionClearance: "",
     description: "",
 
-    // Documents
-    memorandumArticle: null as File | null,
-    auditedBalanceSheet: null as File | null,
+    // Documents section removed
 
     // Terms & Conditions
     codeOfConduct: false,
@@ -269,11 +267,7 @@ export default function ApplyPage() {
         break;
 
       case 4:
-        if (!formData.memorandumArticle)
-          errors.memorandumArticle =
-            "Memorandum & Article of Association is required";
-        if (!formData.auditedBalanceSheet)
-          errors.auditedBalanceSheet = "Audited Balance Sheet is required";
+        // Document validation removed
         break;
     }
 

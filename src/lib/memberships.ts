@@ -38,11 +38,17 @@ export async function getMembershipByType(
   }
 }
 
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-IN", {
+export function calculateTotalWithGST(basePrice: number): number {
+  return basePrice + basePrice * 0.18;
+}
+
+export function formatPrice(price: number, includeGST: boolean = true): string {
+  const formattedPrice = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(price);
+
+  return includeGST ? `${formattedPrice} + GST (18%)` : formattedPrice;
 }

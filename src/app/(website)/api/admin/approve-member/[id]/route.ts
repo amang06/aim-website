@@ -28,7 +28,7 @@ export async function POST(
       return NextResponse.json({ error: "Member not found" }, { status: 404 });
     }
 
-    // Check if member is in PAYMENT_SUBMITTED status
+    // Check if member is in PAYMENT_SUBMITTED status (ready for approval)
     if (member.status !== "PAYMENT_SUBMITTED") {
       return NextResponse.json(
         {
@@ -72,4 +72,3 @@ export async function POST(
     );
   }
 }
-

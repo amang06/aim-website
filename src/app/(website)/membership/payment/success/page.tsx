@@ -29,6 +29,18 @@ export default function PaymentSuccessPage() {
     }
   }, [memberId]);
 
+  // Auto-download invoice after member data is loaded
+  useEffect(() => {
+    if (memberData && memberData.id) {
+      // Trigger automatic download after a short delay
+      const timer = setTimeout(() => {
+        downloadInvoice();
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [memberData]);
+
   const fetchMemberData = async () => {
     try {
       const response = await fetch(`/api/members/${memberId}`);
@@ -40,6 +52,29 @@ export default function PaymentSuccessPage() {
       console.error("Error fetching member data:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const downloadInvoice = async () => {
+    if (!memberId) return;
+
+    try {
+      const response = await fetch(`/api/invoice/${memberId}`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `AIM_Invoice_${memberId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        console.error("Failed to download invoice");
+      }
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
     }
   };
 
@@ -80,13 +115,6 @@ export default function PaymentSuccessPage() {
 
   return (
     <div className="min-h-screen">
-      <PageHeader
-        title="Payment Successful!"
-        subtitle="Welcome to AIM"
-        description="Your membership application has been submitted and payment has been received."
-        height="small"
-      />
-
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="bg-white shadow-lg">
@@ -107,6 +135,15 @@ export default function PaymentSuccessPage() {
                   Your {memberData.membershipType} membership application has
                   been successfully submitted and payment has been received.
                 </p>
+              </div>
+
+              <div className="mb-4 text-center">
+                <button
+                  onClick={downloadInvoice}
+                  className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                >
+                  📄 Download Invoice
+                </button>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-6 mb-8">
@@ -184,10 +221,10 @@ export default function PaymentSuccessPage() {
                     <span className="text-green-800">
                       Email us at{" "}
                       <a
-                        href="mailto:support@aim.org.in"
+                        href="mailto:support@aim.ind.in"
                         className="font-semibold hover:underline"
                       >
-                        support@aim.org.in
+                        support@aim.ind.in
                       </a>
                     </span>
                   </div>
@@ -206,7 +243,7 @@ export default function PaymentSuccessPage() {
                 </div>
               </div>
 
-              <div className="text-center">
+              <div className="text-center space-y-4">
                 <a
                   href="/membership"
                   className="inline-flex items-center px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
@@ -221,4 +258,3 @@ export default function PaymentSuccessPage() {
     </div>
   );
 }
-

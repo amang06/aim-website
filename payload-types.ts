@@ -213,8 +213,6 @@ export interface Member {
   powerConnection?: string | null;
   pollutionClearance?: string | null;
   description?: string | null;
-  memorandumArticle: number | Media;
-  auditedBalanceSheet: number | Media;
   createdBy?: (number | null) | User;
   /**
    * Membership fee applicable for this application
@@ -407,8 +405,6 @@ export interface MembersSelect<T extends boolean = true> {
   powerConnection?: T;
   pollutionClearance?: T;
   description?: T;
-  memorandumArticle?: T;
-  auditedBalanceSheet?: T;
   createdBy?: T;
   feeAmount?: T;
   paymentReferenceId?: T;
