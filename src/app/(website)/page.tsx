@@ -6,6 +6,9 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/button";
 import LearnMoreButton from "@/components/ui/LearnMoreButton";
 import JoinAIMButton from "@/components/ui/JoinAIMButton";
+import { getPayload } from "payload";
+import config from "@payload-config";
+import type { Event, News, Media } from "@/../payload-types";
 
 export const metadata: Metadata = {
   title:
@@ -63,71 +66,151 @@ const heroSlides = [
   },
 ];
 
-const upcomingEvents = [
-  {
-    title: "AIM Annual Conference 2024",
-    date: "January 25-26, 2024",
-    time: "9:00 AM - 6:00 PM",
-    location: "Lucknow, Uttar Pradesh",
-    excerpt:
-      "Join industry leaders, policymakers, and manufacturers for the biggest gathering of Indian manufacturers. Networking, knowledge sharing, and business opportunities.",
-    image: "/images/HERO/bg-1.avif",
-    href: "/events/annual-conference-2024",
-    category: "Conference",
-  },
-  {
-    title: "MSME Digital Transformation Workshop",
-    date: "February 15, 2024",
-    time: "10:00 AM - 4:00 PM",
-    location: "Delhi, NCR",
-    excerpt:
-      "Learn about Industry 4.0 technologies, digital tools, and strategies to transform your manufacturing business for the digital age.",
-    image: "/images/HERO/bg-2.avif",
-    href: "/events/digital-transformation-workshop",
-    category: "Workshop",
-  },
-  {
-    title: "Manufacturing Excellence Awards 2024",
-    date: "March 10, 2024",
-    time: "6:00 PM - 10:00 PM",
-    location: "Mumbai, Maharashtra",
-    excerpt:
-      "Celebrate excellence in manufacturing. Recognize outstanding achievements and innovations in the Indian manufacturing sector.",
-    image: "/images/HERO/bg-3.avif",
-    href: "/events/manufacturing-excellence-awards",
-    category: "Awards",
-  },
-];
+// Helper function to get media URL
+function getMediaUrl(
+  media: number | Media | string | null | undefined
+): string {
+  if (!media) return "/images/hero/bg-1.avif"; // fallback image
+  if (typeof media === "string") return media;
+  if (typeof media === "number") return "/images/hero/bg-1.avif";
+  return media.url || "/images/hero/bg-1.avif";
+}
 
-const latestNews = [
-  {
-    title: "AIM Annual Conference 2024 Registration Open",
-    date: "December 15, 2024",
-    excerpt:
-      "Join us for the biggest gathering of Indian manufacturers. Early bird registration now open with special discounts for AIM members.",
-    image: "/images/HERO/bg-1.avif",
-    href: "/news/annual-conference-2024",
-    category: "Events",
-  },
-  {
-    title: "New Policy Framework for MSME Digital Transformation",
-    date: "December 10, 2024",
-    excerpt:
-      "AIM releases comprehensive guidelines for MSME digital transformation and Industry 4.0 adoption. Download the policy document now.",
-    image: "/images/HERO/bg-2.avif",
-    href: "/news/msme-digital-transformation-policy",
-    category: "Policy",
-  },
-  {
-    title: "AIM Launches Skill Development Program in Karnataka",
-    date: "December 5, 2024",
-    excerpt:
-      "New training initiative to enhance manufacturing skills and create employment opportunities. Over 500 workers to be trained.",
-    image: "/images/HERO/bg-3.avif",
-    href: "/news/karnataka-skill-development-program",
-    category: "Training",
-  },
-];
+// Helper function to format date
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+// Fetch events and news from Payload
+async function getEventsAndNews() {
+  try {
+    const payload = await getPayload({ config });
+
+    // Fetch upcoming events
+    const eventsResult = await payload.find({
+      collection: "events",
+      where: {
+        and: [
+          { status: { equals: "published" } },
+          { eventDate: { greater_than: new Date().toISOString() } },
+        ],
+      },
+      sort: "eventDate",
+      limit: 3,
+      depth: 1,
+    });
+
+    // Fetch latest news
+    const newsResult = await payload.find({
+      collection: "news",
+      where: {
+        status: { equals: "published" },
+      },
+      sort: "-publishedDate",
+      limit: 3,
+      depth: 1,
+    });
+
+    const upcomingEvents = eventsResult.docs.map((event: Event) => ({
+      title: event.title,
+      date: formatDate(event.eventDate),
+      time: event.eventTime,
+      location: event.location,
+      excerpt: event.excerpt,
+      image: getMediaUrl(event.featuredImage),
+      href: `/events/${event.slug}`,
+      category:
+        event.category.charAt(0).toUpperCase() + event.category.slice(1),
+    }));
+
+    const latestNews = newsResult.docs.map((news: News) => ({
+      title: news.title,
+      date: formatDate(news.publishedDate),
+      excerpt: news.excerpt,
+      image: getMediaUrl(news.featuredImage),
+      href: `/news/${news.slug}`,
+      category: news.category.charAt(0).toUpperCase() + news.category.slice(1),
+    }));
+
+    return { upcomingEvents, latestNews };
+  } catch (error) {
+    console.error("Error fetching events and news:", error);
+
+    // Fallback to static data if Payload is not available
+    const upcomingEvents = [
+      {
+        title: "AIM Annual Conference 2024",
+        date: "January 25-26, 2024",
+        time: "9:00 AM - 6:00 PM",
+        location: "Lucknow, Uttar Pradesh",
+        excerpt:
+          "Join industry leaders, policymakers, and manufacturers for the biggest gathering of Indian manufacturers. Networking, knowledge sharing, and business opportunities.",
+        image: "/images/hero/bg-1.avif",
+        href: "/events/annual-conference-2024",
+        category: "Conference",
+      },
+      {
+        title: "MSME Digital Transformation Workshop",
+        date: "February 15, 2024",
+        time: "10:00 AM - 4:00 PM",
+        location: "Delhi, NCR",
+        excerpt:
+          "Learn about Industry 4.0 technologies, digital tools, and strategies to transform your manufacturing business for the digital age.",
+        image: "/images/hero/bg-2.avif",
+        href: "/events/digital-transformation-workshop",
+        category: "Workshop",
+      },
+      {
+        title: "Manufacturing Excellence Awards 2024",
+        date: "March 10, 2024",
+        time: "6:00 PM - 10:00 PM",
+        location: "Mumbai, Maharashtra",
+        excerpt:
+          "Celebrate excellence in manufacturing. Recognize outstanding achievements and innovations in the Indian manufacturing sector.",
+        image: "/images/hero/bg-3.avif",
+        href: "/events/manufacturing-excellence-awards",
+        category: "Awards",
+      },
+    ];
+
+    const latestNews = [
+      {
+        title: "AIM Annual Conference 2024 Registration Open",
+        date: "December 15, 2024",
+        excerpt:
+          "Join us for the biggest gathering of Indian manufacturers. Early bird registration now open with special discounts for AIM members.",
+        image: "/images/hero/bg-1.avif",
+        href: "/news/annual-conference-2024",
+        category: "Events",
+      },
+      {
+        title: "New Policy Framework for MSME Digital Transformation",
+        date: "December 10, 2024",
+        excerpt:
+          "AIM releases comprehensive guidelines for MSME digital transformation and Industry 4.0 adoption. Download the policy document now.",
+        image: "/images/hero/bg-2.avif",
+        href: "/news/msme-digital-transformation-policy",
+        category: "Policy",
+      },
+      {
+        title: "AIM Launches Skill Development Program in Karnataka",
+        date: "December 5, 2024",
+        excerpt:
+          "New training initiative to enhance manufacturing skills and create employment opportunities. Over 500 workers to be trained.",
+        image: "/images/hero/bg-3.avif",
+        href: "/news/karnataka-skill-development-program",
+        category: "Training",
+      },
+    ];
+
+    return { upcomingEvents, latestNews };
+  }
+}
 
 const keyStats = [
   {
@@ -212,7 +295,9 @@ const keyStats = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const { upcomingEvents, latestNews } = await getEventsAndNews();
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -274,7 +359,7 @@ export default function Home() {
                 key={index}
                 className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-56 overflow-hidden">
                   <Image
                     src={event.image}
                     alt={event.title}
@@ -376,7 +461,7 @@ export default function Home() {
                 key={index}
                 className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-56 overflow-hidden">
                   <Image
                     src={news.image}
                     alt={news.title}

@@ -55,6 +55,7 @@ export function generateTxnId(memberId?: string): string {
 
 // Generate PayU hash for payment
 export function generatePayUHash(data: {
+  key: string;
   txnid: string;
   amount: number;
   productinfo: string;

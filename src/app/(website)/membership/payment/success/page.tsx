@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import PageHeader from "@/components/sections/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -17,17 +17,57 @@ interface MemberData {
   feeAmount: number;
 }
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessPageContent() {
   const searchParams = useSearchParams();
   const memberId = searchParams.get("memberId");
   const [memberData, setMemberData] = useState<MemberData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (memberId) {
-      fetchMemberData();
-    }
+    const fetchMemberData = async () => {
+      if (!memberId) return;
+
+      try {
+        const response = await fetch(`/api/member-info/${memberId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setMemberData(data);
+        } else {
+          setError("Failed to fetch member data");
+        }
+      } catch (err) {
+        console.error("Error fetching member data:", err);
+        setError("Error fetching member data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMemberData();
   }, [memberId]);
+
+  const downloadInvoice = async () => {
+    if (!memberData?.id) return;
+
+    try {
+      const response = await fetch(`/api/invoice/${memberData.id}`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = `AIM-Invoice-${memberData.id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+    } catch (err) {
+      console.error("Error downloading invoice:", err);
+    }
+  };
 
   // Auto-download invoice after member data is loaded
   useEffect(() => {
@@ -39,44 +79,7 @@ export default function PaymentSuccessPage() {
 
       return () => clearTimeout(timer);
     }
-  }, [memberData]);
-
-  const fetchMemberData = async () => {
-    try {
-      const response = await fetch(`/api/member-info/${memberId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setMemberData(data);
-      }
-    } catch (error) {
-      console.error("Error fetching member data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const downloadInvoice = async () => {
-    if (!memberId) return;
-
-    try {
-      const response = await fetch(`/api/invoice/${memberId}`);
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `AIM_Invoice_${memberId}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else {
-        console.error("Failed to download invoice");
-      }
-    } catch (error) {
-      console.error("Error downloading invoice:", error);
-    }
-  };
+  }, [memberData, downloadInvoice]);
 
   if (loading) {
     return (
@@ -204,7 +207,7 @@ export default function PaymentSuccessPage() {
                   <div className="flex items-start">
                     <span className="text-blue-600 mr-3 mt-1">3.</span>
                     <span>
-                      Your membership will be activated and you'll receive
+                      Your membership will be activated and you&apos;ll receive
                       access to all member benefits
                     </span>
                   </div>
@@ -256,5 +259,22 @@ export default function PaymentSuccessPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <PaymentSuccessPageContent />
+    </Suspense>
   );
 }

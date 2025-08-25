@@ -15,8 +15,12 @@ export async function POST(request: NextRequest) {
 
     const payload = await getPayload({ config });
 
-    // If memberId is provided, send certificate for specific member
-    // Otherwise, send certificates for all pending members
+    // Build the where conditions dynamically
+    const baseConditions = {
+      status: { equals: "ACTIVE" },
+      certificateSent: { equals: false },
+    };
+
     const query = memberId
       ? {
           collection: "members" as const,
@@ -30,13 +34,8 @@ export async function POST(request: NextRequest) {
         }
       : {
           collection: "members" as const,
-          where: {
-            and: [
-              { status: { equals: "ACTIVE" } },
-              { certificateSent: { equals: false } },
-            ],
-          },
-          limit: 50, // Limit to prevent timeout
+          where: baseConditions,
+          limit: 50, // Limit to prevent timeout when processing all
         };
 
     const pendingMembers = await payload.find(query);

@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyPayUResponse, getPayUConfig } from "@/lib/payu";
+import { verifyPayUResponse, getPayUConfig, PayUResponse } from "@/lib/payu";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    const payuResponse = Object.fromEntries(formData.entries()) as any;
+    const payuResponse = Object.fromEntries(
+      formData.entries()
+    ) as unknown as PayUResponse;
 
     // Verify the response hash
     const payuConfig = getPayUConfig();
@@ -36,7 +38,12 @@ export async function POST(request: NextRequest) {
     const status =
       payuResponse.status === "success" ? "PAYMENT_SUBMITTED" : "SUBMITTED";
 
-    const updateData: any = {
+    const updateData: {
+      status: "PAYMENT_SUBMITTED" | "SUBMITTED";
+      feeAmount?: number;
+      paymentVerifiedAt?: string;
+      paymentReferenceId?: string;
+    } = {
       status,
     };
 

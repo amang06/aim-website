@@ -92,15 +92,6 @@ export async function generateGSTInvoice(
     doc.rect(x, y, width, height, "F");
   };
 
-  // Helper function to draw border rectangle
-  const drawBorderRect = (
-    x: number,
-    y: number,
-    width: number,
-    height: number
-  ) => {
-    doc.rect(x, y, width, height, "S");
-  };
 
   // Header background
   doc.setFillColor(primaryColor.r, primaryColor.g, primaryColor.b);
@@ -382,93 +373,6 @@ export async function generateGSTInvoice(
   return doc;
 }
 
-function numberToWords(num: number): string {
-  const ones = [
-    "",
-    "One",
-    "Two",
-    "Three",
-    "Four",
-    "Five",
-    "Six",
-    "Seven",
-    "Eight",
-    "Nine",
-  ];
-  const teens = [
-    "Ten",
-    "Eleven",
-    "Twelve",
-    "Thirteen",
-    "Fourteen",
-    "Fifteen",
-    "Sixteen",
-    "Seventeen",
-    "Eighteen",
-    "Nineteen",
-  ];
-  const tens = [
-    "",
-    "",
-    "Twenty",
-    "Thirty",
-    "Forty",
-    "Fifty",
-    "Sixty",
-    "Seventy",
-    "Eighty",
-    "Ninety",
-  ];
-
-  if (num === 0) return "Zero";
-
-  function convertHundreds(n: number): string {
-    let result = "";
-
-    if (n >= 100) {
-      result += ones[Math.floor(n / 100)] + " Hundred ";
-      n %= 100;
-    }
-
-    if (n >= 20) {
-      result += tens[Math.floor(n / 10)] + " ";
-      n %= 10;
-    } else if (n >= 10) {
-      result += teens[n - 10] + " ";
-      return result;
-    }
-
-    if (n > 0) {
-      result += ones[n] + " ";
-    }
-
-    return result;
-  }
-
-  let word = "";
-
-  // Handle Indian numbering system
-  if (num >= 10000000) {
-    word += convertHundreds(Math.floor(num / 10000000)) + "Crore ";
-    num %= 10000000;
-  }
-
-  if (num >= 100000) {
-    word += convertHundreds(Math.floor(num / 100000)) + "Lakh ";
-    num %= 100000;
-  }
-
-  if (num >= 1000) {
-    word += convertHundreds(Math.floor(num / 1000)) + "Thousand ";
-    num %= 1000;
-  }
-
-  if (num > 0) {
-    word += convertHundreds(num);
-  }
-
-  return word.trim();
-}
 
 export async function downloadInvoice(
   invoiceData: InvoiceData,

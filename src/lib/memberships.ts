@@ -1,4 +1,4 @@
-import type { Membership } from "../payload-types";
+import type { Membership } from "../../payload-types";
 
 export async function getMemberships(): Promise<Membership[]> {
   try {

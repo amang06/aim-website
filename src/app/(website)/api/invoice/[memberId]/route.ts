@@ -10,10 +10,10 @@ import {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { memberId: string } }
+  { params }: { params: Promise<{ memberId: string }> }
 ) {
   try {
-    const { memberId } = params;
+    const { memberId } = await params;
 
     if (!memberId) {
       return NextResponse.json(

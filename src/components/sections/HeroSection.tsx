@@ -35,7 +35,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     }, interval);
 
     return () => clearInterval(timer);
-  }, [isAutoPlaying, interval, slides?.length]);
+  }, [isAutoPlaying, interval, slides?.length, slides]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);

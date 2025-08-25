@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     members: Member;
     memberships: Membership;
+    events: Event;
+    news: News;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +83,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
     memberships: MembershipsSelect<false> | MembershipsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -150,6 +154,7 @@ export interface User {
 export interface Media {
   id: number;
   alt?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -258,6 +263,195 @@ export interface Membership {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  /**
+   * Title of the event
+   */
+  title: string;
+  /**
+   * URL slug for the event (leave empty to auto-generate from title)
+   */
+  slug: string;
+  category: 'conference' | 'workshop' | 'awards' | 'seminar' | 'training' | 'networking' | 'other';
+  status: 'unpublished' | 'published' | 'cancelled' | 'completed';
+  /**
+   * Featured image for the event
+   */
+  featuredImage: number | Media;
+  /**
+   * Short description of the event (max 300 characters)
+   */
+  excerpt: string;
+  /**
+   * Full description of the event
+   */
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Date of the event
+   */
+  eventDate: string;
+  /**
+   * Time of the event (e.g., 9:00 AM - 6:00 PM)
+   */
+  eventTime: string;
+  /**
+   * Location of the event (e.g., Lucknow, Uttar Pradesh)
+   */
+  location: string;
+  /**
+   * Specific venue details
+   */
+  venue?: string | null;
+  /**
+   * Event agenda or schedule
+   */
+  agenda?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Feature this event on the homepage
+   */
+  isFeatured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: number;
+  /**
+   * Title of the news article
+   */
+  title: string;
+  /**
+   * URL slug for the news article (leave empty to auto-generate from title)
+   */
+  slug: string;
+  category:
+    | 'events'
+    | 'policy'
+    | 'training'
+    | 'awards'
+    | 'industry-news'
+    | 'government-updates'
+    | 'partnership'
+    | 'press-release'
+    | 'other';
+  status: 'draft' | 'published' | 'archived';
+  /**
+   * Featured image for the news article
+   */
+  featuredImage: number | Media;
+  /**
+   * Short description of the news (max 300 characters)
+   */
+  excerpt: string;
+  /**
+   * Full content of the news article
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Publication date of the news
+   */
+  publishedDate: string;
+  /**
+   * Author of the news article
+   */
+  author?: string | null;
+  /**
+   * Author's designation or title
+   */
+  authorDesignation?: string | null;
+  /**
+   * Tags for better categorization and search
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Related events (if any)
+   */
+  relatedEvents?: (number | Event)[] | null;
+  /**
+   * External URL for more information (optional)
+   */
+  externalUrl?: string | null;
+  /**
+   * Downloadable files related to this news (PDFs, documents, etc.)
+   */
+  downloadableFiles?:
+    | {
+        title: string;
+        file: number | Media;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Feature this news on the homepage
+   */
+  isFeatured?: boolean | null;
+  /**
+   * Mark as breaking news
+   */
+  isBreaking?: boolean | null;
+  /**
+   * Priority for homepage display order
+   */
+  priority?: ('high' | 'medium' | 'low') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -278,6 +472,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'memberships';
         value: number | Membership;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'news';
+        value: number | News;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -351,6 +553,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -432,6 +635,64 @@ export interface MembersSelect<T extends boolean = true> {
 export interface MembershipsSelect<T extends boolean = true> {
   type?: T;
   price?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  status?: T;
+  featuredImage?: T;
+  excerpt?: T;
+  description?: T;
+  eventDate?: T;
+  eventTime?: T;
+  location?: T;
+  venue?: T;
+  agenda?: T;
+  isFeatured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news_select".
+ */
+export interface NewsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  status?: T;
+  featuredImage?: T;
+  excerpt?: T;
+  content?: T;
+  publishedDate?: T;
+  author?: T;
+  authorDesignation?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  relatedEvents?: T;
+  externalUrl?: T;
+  downloadableFiles?:
+    | T
+    | {
+        title?: T;
+        file?: T;
+        description?: T;
+        id?: T;
+      };
+  isFeatured?: T;
+  isBreaking?: T;
+  priority?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -13,7 +13,11 @@ interface CertificateData {
 export async function generateCertificate(
   data: CertificateData
 ): Promise<Buffer> {
-  const { member, membershipDuration, membershipId, issueDate } = data;
+  const {
+    member,
+    membershipDuration,
+    membershipId,
+  } = data;
 
   // Create PDF in landscape A4 format
   const doc = new jsPDF({
@@ -331,11 +335,6 @@ function splitTextByWidth(
   return lines;
 }
 
-// Legacy function kept for compatibility
-function splitText(doc: jsPDF, text: string, maxWidth: number): string[] {
-  return splitTextByWidth(doc, text, maxWidth);
-}
-
 function getMembershipTypeLabel(type: string): string {
   const typeMap: Record<string, string> = {
     associate: "Associate Member",
@@ -344,34 +343,6 @@ function getMembershipTypeLabel(type: string): string {
   };
   return typeMap[type] || type;
 }
-
-function formatTitle(title: string): string {
-  if (!title) return "";
-
-  // Convert to lowercase first, then capitalize properly
-  const cleaned = title.toLowerCase().trim();
-
-  // Handle common titles
-  const titleMap: Record<string, string> = {
-    mr: "Mr.",
-    "mr.": "Mr.",
-    ms: "Ms.",
-    "ms.": "Ms.",
-    mrs: "Mrs.",
-    "mrs.": "Mrs.",
-    miss: "Miss",
-    dr: "Dr.",
-    "dr.": "Dr.",
-    prof: "Prof.",
-    "prof.": "Prof.",
-  };
-
-  return (
-    titleMap[cleaned] ||
-    title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()
-  );
-}
-
 export function generateMembershipId(
   memberId: number,
   membershipType: string

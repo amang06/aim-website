@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import PageHeader from "@/components/sections/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -17,31 +17,31 @@ interface MemberData {
   feeAmount: number;
 }
 
-export default function PaymentFailurePage() {
+function PaymentFailurePageContent() {
   const searchParams = useSearchParams();
   const memberId = searchParams.get("memberId");
   const [memberData, setMemberData] = useState<MemberData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (memberId) {
-      fetchMemberData();
-    }
-  }, [memberId]);
+    const fetchMemberData = async () => {
+      if (!memberId) return;
 
-  const fetchMemberData = async () => {
-    try {
-      const response = await fetch(`/api/member-info/${memberId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setMemberData(data);
+      try {
+        const response = await fetch(`/api/member-info/${memberId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setMemberData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching member data:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching member data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    fetchMemberData();
+  }, [memberId]);
 
   const retryPayment = async () => {
     if (!memberData) return;
@@ -148,7 +148,7 @@ export default function PaymentFailurePage() {
                   Payment Not Completed
                 </h3>
                 <p className="text-gray-600">
-                  We couldn't process your payment for the{" "}
+                  We couldn&apos;t process your payment for the{" "}
                   {memberData.membershipType} membership. This could be due to
                   various reasons like insufficient funds, network issues, or
                   bank restrictions.
@@ -269,5 +269,22 @@ export default function PaymentFailurePage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function PaymentFailurePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <PaymentFailurePageContent />
+    </Suspense>
   );
 }

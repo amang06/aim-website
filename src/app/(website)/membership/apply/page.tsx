@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import PageHeader from "@/components/sections/PageHeader";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ApplyFormData, ValidationErrors } from "./types";
@@ -10,10 +9,8 @@ import Step1SelectType from "./components/Step1SelectType";
 import Step2CompanyInfo from "./components/Step2CompanyInfo";
 import Step3ContactInfo from "./components/Step3ContactInfo";
 import Step5Review from "./components/Step4Review";
-import { getMembershipByType } from "@/lib/memberships";
 
 export default function ApplyPage() {
-  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [membershipType, setMembershipType] = useState("");
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
@@ -24,26 +21,29 @@ export default function ApplyPage() {
 
   // Fetch membership price when membership type changes
   useEffect(() => {
-    if (membershipType) {
-      fetchMembershipPrice();
-    } else {
-      setMembershipPrice(undefined);
-    }
-  }, [membershipType]);
-
-  const fetchMembershipPrice = async () => {
-    try {
-      const membership = await getMembershipByType(membershipType);
-      if (membership) {
-        setMembershipPrice(membership.price);
-      } else {
+    const fetchMembershipPrice = async () => {
+      if (!membershipType) {
         setMembershipPrice(undefined);
+        return;
       }
-    } catch (error) {
-      console.error("Error fetching membership price:", error);
-      setMembershipPrice(undefined);
-    }
-  };
+
+      try {
+        const response = await fetch("/api/memberships/prices");
+        const data = await response.json();
+
+        if (data.success && data.memberships) {
+          const membership = data.memberships.find(
+            (m: { type: string }) => m.type === membershipType
+          );
+          setMembershipPrice(membership?.price);
+        }
+      } catch (error) {
+        console.error("Error fetching membership price:", error);
+      }
+    };
+
+    fetchMembershipPrice();
+  }, [membershipType]);
 
   const [formData, setFormData] = useState<ApplyFormData>({
     // Company Details
