@@ -130,10 +130,10 @@ export default function EligibilityPage() {
                       </span>
                       <div>
                         <span className="font-medium text-gray-900">
-                          Udyam registration
+                          Valid Business registration
                         </span>
                         <p className="text-sm text-gray-600 mt-1">
-                          MSME registration under Udyam portal
+                          Valid CIN, PAN, TAN etc.
                         </p>
                       </div>
                     </div>
@@ -152,19 +152,6 @@ export default function EligibilityPage() {
                     </div>
                     <div className="flex items-start p-3 bg-gray-50 rounded-lg">
                       <span className="text-primary-600 font-semibold mr-3 mt-0.5">
-                        c)
-                      </span>
-                      <div>
-                        <span className="font-medium text-gray-900">
-                          Either LMV-6 or HV2 Power Connection
-                        </span>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Industrial power connection documentation
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start p-3 bg-gray-50 rounded-lg">
-                      <span className="text-primary-600 font-semibold mr-3 mt-0.5">
                         d)
                       </span>
                       <div>
@@ -173,19 +160,6 @@ export default function EligibilityPage() {
                         </span>
                         <p className="text-sm text-gray-600 mt-1">
                           Factory registration certificate
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start p-3 bg-gray-50 rounded-lg">
-                      <span className="text-primary-600 font-semibold mr-3 mt-0.5">
-                        e)
-                      </span>
-                      <div>
-                        <span className="font-medium text-gray-900">
-                          Having Consent /NOC From Pollution control board
-                        </span>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Environmental clearance certificate
                         </p>
                       </div>
                     </div>
@@ -218,12 +192,6 @@ export default function EligibilityPage() {
                     <div className="flex items-start">
                       <input type="checkbox" className="mt-1 mr-3" />
                       <span className="text-gray-700">
-                        At least 4 of the required registrations
-                      </span>
-                    </div>
-                    <div className="flex items-start">
-                      <input type="checkbox" className="mt-1 mr-3" />
-                      <span className="text-gray-700">
                         Udyam registration (if applicable)
                       </span>
                     </div>
@@ -231,24 +199,6 @@ export default function EligibilityPage() {
                       <input type="checkbox" className="mt-1 mr-3" />
                       <span className="text-gray-700">
                         GST registration for manufacturing
-                      </span>
-                    </div>
-                    <div className="flex items-start">
-                      <input type="checkbox" className="mt-1 mr-3" />
-                      <span className="text-gray-700">
-                        Industrial power connection
-                      </span>
-                    </div>
-                    <div className="flex items-start">
-                      <input type="checkbox" className="mt-1 mr-3" />
-                      <span className="text-gray-700">
-                        Factory registration
-                      </span>
-                    </div>
-                    <div className="flex items-start">
-                      <input type="checkbox" className="mt-1 mr-3" />
-                      <span className="text-gray-700">
-                        Pollution control board clearance
                       </span>
                     </div>
                   </div>
@@ -718,8 +668,8 @@ export default function EligibilityPage() {
             <JoinAIMButton
               href="/membership/apply"
               size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary"
+              variant="secondary"
+              className="bg-white text-primary hover:bg-gray-100"
             />
           </div>
         </div>
