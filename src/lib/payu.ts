@@ -15,6 +15,7 @@ export interface PayUPaymentData {
   firstname: string;
   email: string;
   phone: string;
+  udf1?: string;
   surl: string;
   furl: string;
   hash: string;
@@ -24,11 +25,19 @@ export interface PayUResponse {
   status: string;
   error_Message?: string;
   txnid?: string;
+  mihpayid?: string;
   amount?: string;
   productinfo?: string;
   firstname?: string;
+  lastname?: string;
   email?: string;
   phone?: string;
+  mode?: string;
+  udf1?: string;
+  udf2?: string;
+  udf3?: string;
+  udf4?: string;
+  udf5?: string;
   hash?: string;
 }
 
@@ -61,43 +70,82 @@ export function generatePayUHash(data: {
   productinfo: string;
   firstname: string;
   email: string;
+  udf1?: string;
   salt: string;
 }): string {
-  const { txnid, amount, productinfo, firstname, email, salt } = data;
+  const { key, txnid, amount, productinfo, firstname, email, udf1, salt } =
+    data;
 
-  // PayU hash format: sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||SALT)
-  const hashString = `${
-    data.key || ""
-  }|${txnid}|${amount}|${productinfo}|${firstname}|${email}|||||||||||${salt}`;
+  // PayU hash format: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||SALT
+  const hashString = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|${
+    udf1 || ""
+  }||||||||||${salt}`;
+
+  console.log("PayU Hash Generation:", {
+    hashString,
+    key,
+    txnid,
+    amount,
+    productinfo,
+    firstname,
+    email,
+    udf1,
+    salt: salt ? "Present" : "Missing",
+  });
 
   return crypto.createHash("sha512").update(hashString).digest("hex");
 }
 
 // Verify PayU response hash
-export function verifyPayUResponse(data: PayUResponse, salt: string): boolean {
-  const { txnid, amount, productinfo, firstname, email, phone, status, hash } =
+export function verifyPayUResponse(
+  data: PayUResponse,
+  salt: string,
+  key: string
+): boolean {
+  const { txnid, amount, productinfo, firstname, email, status, hash, udf1 } =
     data;
 
-  if (
-    !txnid ||
-    !amount ||
-    !productinfo ||
-    !firstname ||
-    !email ||
-    !phone ||
-    !status ||
-    !hash
-  ) {
+  // Check for minimum required fields
+  const essentialFields = [];
+  if (!txnid) essentialFields.push("txnid");
+  if (!amount) essentialFields.push("amount");
+  if (!status) essentialFields.push("status");
+
+  if (essentialFields.length > 0) {
+    console.error("PayU response missing essential fields:", essentialFields);
     return false;
   }
 
-  const hashString = `${salt}|${status}|||||||||||${email}|${firstname}|${productinfo}|${amount}|${txnid}`;
-  const calculatedHash = crypto
+  // If no hash is provided, we can't verify - but in test mode this might be acceptable
+  if (!hash) {
+    console.warn("PayU response missing hash - cannot verify authenticity");
+    return false;
+  }
+
+  // PayU response hash format (from working implementation):
+  // SALT|status||||||||||UDF1|email|firstname|productinfo|amount|txnid|KEY
+  const responseHashString = `${salt}|${status}||||||||||${
+    udf1 || ""
+  }|${email}|${firstname}|${productinfo}|${amount}|${txnid}|${key}`;
+  const calculatedResponseHash = crypto
     .createHash("sha512")
-    .update(hashString)
+    .update(responseHashString)
     .digest("hex");
 
-  return calculatedHash === hash;
+  console.log("PayU Response Hash Verification (Working Format):", {
+    responseHashString,
+    calculatedResponseHash,
+    receivedHash: hash,
+    matches: calculatedResponseHash === hash,
+    status,
+    txnid,
+    amount,
+    udf1,
+    salt: salt ? "Present" : "Missing",
+    key: key ? "Present" : "Missing",
+  });
+
+  return calculatedResponseHash === hash;
 }
 
 // Create PayU payment data
@@ -135,6 +183,7 @@ export function createPayUPaymentData(
     productinfo,
     firstname,
     email: memberData.email,
+    udf1: memberId || "", // Use memberId as UDF1
     salt: config.salt,
   };
 
@@ -148,6 +197,7 @@ export function createPayUPaymentData(
     firstname,
     email: memberData.email,
     phone: memberData.phone,
+    udf1: memberId || "",
     surl: successUrl,
     furl: failureUrl,
     hash,
