@@ -31,7 +31,7 @@ const heroSlides = [
       "Association of Indian Manufacturers (AIM) is dedicated to supporting Micro, Small and Medium Enterprises (MSMEs) across India through comprehensive advocacy, networking, and development programs.",
     ctaText: "About AIM",
     ctaHref: "/about",
-    backgroundImage: "/images/HERO/bg-1.avif",
+    backgroundImage: "/images/hero/bg-1.avif",
     overlay: true,
   },
   {
@@ -41,7 +41,7 @@ const heroSlides = [
       "Representing MSME interests at national and state levels, influencing policy decisions that drive industry growth and create opportunities for manufacturers across India.",
     ctaText: "Our Leadership",
     ctaHref: "/about#leadership",
-    backgroundImage: "/images/HERO/bg-2.avif",
+    backgroundImage: "/images/hero/bg-2.avif",
     overlay: true,
   },
   {
@@ -51,7 +51,7 @@ const heroSlides = [
       "Join our extensive network of manufacturers, participate in exclusive events, and build meaningful partnerships that drive business growth and innovation.",
     ctaText: "Join AIM",
     ctaHref: "/membership/apply",
-    backgroundImage: "/images/HERO/bg-3.avif",
+    backgroundImage: "/images/hero/bg-3.avif",
     overlay: true,
   },
   {
@@ -61,7 +61,7 @@ const heroSlides = [
       "Access comprehensive training programs, workshops, and skill development initiatives designed to enhance your manufacturing capabilities and workforce productivity.",
     ctaText: "Learn More",
     ctaHref: "/resources",
-    backgroundImage: "/images/HERO/bg-4.avif",
+    backgroundImage: "/images/hero/bg-4.avif",
     overlay: true,
   },
 ];
