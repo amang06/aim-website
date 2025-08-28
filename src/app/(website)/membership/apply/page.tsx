@@ -153,6 +153,10 @@ export default function ApplyPage() {
         if (!validatePAN(value.toUpperCase())) {
           error = "Invalid PAN format";
         }
+      } else if ((name === "contactEmail" || name === "headEmail") && value) {
+        if (!validateEmail(value)) {
+          error = "Invalid email format";
+        }
       }
 
       setValidationErrors((prev) => ({
@@ -187,6 +191,13 @@ export default function ApplyPage() {
     // PAN format: 5 alphabets + 4 digits + 1 alphabet
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
     return panRegex.test(pan);
+  };
+
+  const validateEmail = (email: string): boolean => {
+    // Email validation regex - RFC 2822 compliant
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return emailRegex.test(email.trim());
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -251,8 +262,11 @@ export default function ApplyPage() {
           errors.contactLastName = "Contact last name is required";
         if (!formData.contactDesignation)
           errors.contactDesignation = "Contact designation is required";
-        if (!formData.contactEmail)
+        if (!formData.contactEmail) {
           errors.contactEmail = "Contact email is required";
+        } else if (!validateEmail(formData.contactEmail)) {
+          errors.contactEmail = "Invalid email format";
+        }
         if (!formData.contactMobile)
           errors.contactMobile = "Contact mobile is required";
         if (!formData.headTitle) errors.headTitle = "Head title is required";
@@ -262,7 +276,11 @@ export default function ApplyPage() {
           errors.headLastName = "Head last name is required";
         if (!formData.headDesignation)
           errors.headDesignation = "Head designation is required";
-        if (!formData.headEmail) errors.headEmail = "Head email is required";
+        if (!formData.headEmail) {
+          errors.headEmail = "Head email is required";
+        } else if (!validateEmail(formData.headEmail)) {
+          errors.headEmail = "Invalid email format";
+        }
         if (!formData.headMobile) errors.headMobile = "Head mobile is required";
         break;
 
@@ -300,6 +318,13 @@ export default function ApplyPage() {
 
     if (!membershipPrice) {
       alert("Unable to get membership price. Please try again.");
+      return;
+    }
+
+    // Validate all steps before submission
+    const allStepsValid = [1, 2, 3, 4].every((step) => validateStep(step));
+    if (!allStepsValid) {
+      alert("Please fix all validation errors before submitting");
       return;
     }
 
