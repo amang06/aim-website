@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "payload generate:types",
     "send-certificates": "tsx scripts/send-certificates.ts",
     "send-certificates:dev": "tsx --env-file=.env.local scripts/send-certificates.ts"
   },
