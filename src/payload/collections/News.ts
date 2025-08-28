@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { revalidateNews, revalidateNewsDelete } from "../hooks/revalidateNews";
 
 const News: CollectionConfig = {
   slug: "news",
@@ -17,6 +18,10 @@ const News: CollectionConfig = {
     create: ({ req }) => !!req.user, // Only authenticated users can create
     update: ({ req }) => !!req.user, // Only authenticated users can update
     delete: ({ req }) => !!req.user, // Only authenticated users can delete
+  },
+  hooks: {
+    afterChange: [revalidateNews],
+    afterDelete: [revalidateNewsDelete],
   },
   fields: [
     {
