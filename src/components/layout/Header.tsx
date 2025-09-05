@@ -32,19 +32,19 @@ const Header = () => {
         },
       ],
     },
-    {
-      name: "States & Chapters",
-      href: "/states",
-      submenu: [
-        { name: "Delhi", href: "/states#delhi" },
-        { name: "Haryana", href: "/states#haryana" },
-        { name: "Uttar Pradesh", href: "/states#uttar-pradesh" },
-        { name: "Maharashtra", href: "/states#maharashtra" },
-        { name: "Karnataka", href: "/states#karnataka" },
-        { name: "Tamil Nadu", href: "/states#tamil-nadu" },
-        { name: "View All States", href: "/states" },
-      ],
-    },
+    // {
+    //   name: "States & Chapters",
+    //   href: "/states",
+    //   submenu: [
+    //     { name: "Delhi", href: "/states#delhi" },
+    //     { name: "Haryana", href: "/states#haryana" },
+    //     { name: "Uttar Pradesh", href: "/states#uttar-pradesh" },
+    //     { name: "Maharashtra", href: "/states#maharashtra" },
+    //     { name: "Karnataka", href: "/states#karnataka" },
+    //     { name: "Tamil Nadu", href: "/states#tamil-nadu" },
+    //     { name: "View All States", href: "/states" },
+    //   ],
+    // },
     // { name: "Organization Structure", href: "/organization-structure" },
     // { name: "News & Events", href: "/news" },
     // { name: "Resources", href: "/resources" },
@@ -61,12 +61,12 @@ const Header = () => {
       {/* Announcement Banner */}
       <div className="bg-primary-600 text-white py-2 px-4 text-center text-sm">
         <p>
-          🎉 Join AIM&apos;s Annual Conference - Register Now!
+          🎉 Join AIM and grow your business worldwide!
           <Link
-            href="/news/annual-conference"
+            href="/membership/apply"
             className="underline ml-2 hover:text-primary-100"
           >
-            Learn More
+            Join Now
           </Link>
         </p>
       </div>
