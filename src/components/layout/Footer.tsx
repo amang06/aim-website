@@ -9,7 +9,7 @@ const Footer = () => {
   const quickLinks = [
     { name: "About AIM", href: "/about" },
     { name: "Membership", href: "/membership" },
-    { name: "States & Chapters", href: "/states" },
+    // { name: "States & Chapters", href: "/states" },
     { name: "News & Events", href: "/news" },
     { name: "Resources", href: "/resources" },
     { name: "Downloads", href: "/downloads" },

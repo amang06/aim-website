@@ -71,8 +71,8 @@ export async function POST(request: NextRequest) {
     // Create PayU payment data
     const baseUrl =
       process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
-    const successUrl = `${baseUrl}/membership/payment/success?memberId=${member.id}`;
-    const failureUrl = `${baseUrl}/membership/payment/failure?memberId=${member.id}`;
+    const successUrl = `${baseUrl}/api/payment/callback`;
+    const failureUrl = `${baseUrl}/api/payment/callback`;
 
     const paymentData = createPayUPaymentData(
       membership.type,

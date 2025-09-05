@@ -2,12 +2,15 @@
   "functions": {
     "src/app/(website)/api/admin/send-certificates/route.ts": {
       "maxDuration": 60
+    },
+    "src/app/(website)/api/cron/send-certificates/route.ts": {
+      "maxDuration": 60
     }
   },
   "crons": [
     {
-      "path": "/api/admin/send-certificates",
-      "schedule": "0 */2 * * *"
+      "path": "/api/cron/send-certificates",
+      "schedule": "0 9 * * *"
     }
   ]
 }

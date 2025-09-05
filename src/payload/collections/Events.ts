@@ -1,4 +1,8 @@
 import type { CollectionConfig } from "payload";
+import {
+  revalidateEvent,
+  revalidateEventDelete,
+} from "../hooks/revalidateEvents";
 
 const Events: CollectionConfig = {
   slug: "events",
@@ -11,6 +15,10 @@ const Events: CollectionConfig = {
     create: ({ req }) => !!req.user, // Only authenticated users can create
     update: ({ req }) => !!req.user, // Only authenticated users can update
     delete: ({ req }) => !!req.user, // Only authenticated users can delete
+  },
+  hooks: {
+    afterChange: [revalidateEvent],
+    afterDelete: [revalidateEventDelete],
   },
   fields: [
     {

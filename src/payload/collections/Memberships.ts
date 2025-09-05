@@ -1,4 +1,8 @@
 import type { CollectionConfig, AccessArgs } from "payload";
+import {
+  revalidateMembership,
+  revalidateMembershipDelete,
+} from "../hooks/revalidateMemberships";
 
 type AuthUser = { id: number; role?: "admin" | "staff" | "member" };
 
@@ -20,6 +24,10 @@ const Memberships: CollectionConfig = {
     create: ({ req }) => isAdmin({ req }),
     update: ({ req }) => isAdmin({ req }),
     delete: ({ req }) => isAdmin({ req }),
+  },
+  hooks: {
+    afterChange: [revalidateMembership],
+    afterDelete: [revalidateMembershipDelete],
   },
   fields: [
     {
