@@ -7,27 +7,8 @@ import config from "@payload-config";
 import PageHeader from "@/components/sections/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/Card";
+import RichTextRenderer from "@/components/ui/RichTextRenderer";
 import type { News, Media, Event } from "@/../payload-types";
-
-// Rich text content structure
-interface RichTextNode {
-  type: string;
-  children?: RichTextChild[];
-  tag?: string;
-  listType?: string;
-}
-
-interface RichTextChild {
-  type: string;
-  text?: string;
-}
-
-interface RichTextContent {
-  root: {
-    type: string;
-    children: RichTextNode[];
-  };
-}
 
 // News tag structure
 interface NewsTag {
@@ -62,70 +43,6 @@ function formatDate(dateString: string): string {
     month: "long",
     day: "numeric",
   });
-}
-
-// Helper function to render rich text content
-function renderRichText(
-  content: RichTextContent | null | undefined
-): React.JSX.Element {
-  if (!content || !content.root || !content.root.children) {
-    return <div></div>;
-  }
-
-  const renderNode = (node: RichTextNode, index: number): React.JSX.Element => {
-    if (node.type === "paragraph") {
-      return (
-        <p key={index} className="mb-4">
-          {node.children?.map((child: RichTextChild, childIndex: number) => {
-            if (child.type === "text") {
-              return <span key={childIndex}>{child.text}</span>;
-            }
-            return null;
-          })}
-        </p>
-      );
-    }
-    if (node.type === "heading") {
-      const HeadingTag = `h${node.tag}` as keyof React.JSX.IntrinsicElements;
-      const className =
-        node.tag === "h1"
-          ? "text-3xl font-bold mb-6"
-          : node.tag === "h2"
-          ? "text-2xl font-bold mb-4 mt-8"
-          : "text-xl font-semibold mb-3 mt-6";
-      return (
-        <HeadingTag key={index} className={className}>
-          {node.children?.map((child: RichTextChild, childIndex: number) => {
-            if (child.type === "text") {
-              return <span key={childIndex}>{child.text}</span>;
-            }
-            return null;
-          })}
-        </HeadingTag>
-      );
-    }
-    if (node.type === "list") {
-      const ListTag = node.listType === "number" ? "ol" : "ul";
-      return (
-        <ListTag key={index} className="mb-4 ml-6 list-disc">
-          {node.children?.map((child: RichTextNode, childIndex: number) => (
-            <li key={childIndex} className="mb-2">
-              {renderNode(child, childIndex)}
-            </li>
-          ))}
-        </ListTag>
-      );
-    }
-    return <div key={index}></div>;
-  };
-
-  return (
-    <div className="prose prose-lg max-w-none">
-      {content.root.children.map((node: RichTextNode, index: number) =>
-        renderNode(node, index)
-      )}
-    </div>
-  );
 }
 
 interface NewsPageProps {
@@ -210,7 +127,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
         />
 
         <section className="py-16 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Main Content */}
               <div className="lg:col-span-2">
@@ -232,9 +149,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
                     </span>
                   </div>
 
-                  <div className="prose prose-lg max-w-none">
-                    {renderRichText(news.content)}
-                  </div>
+                  <RichTextRenderer content={news.content} />
 
                   {/* Tags */}
                   {news.tags && news.tags.length > 0 && (

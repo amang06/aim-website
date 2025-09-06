@@ -6,27 +6,8 @@ import config from "@payload-config";
 import PageHeader from "@/components/sections/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/Card";
+import RichTextRenderer from "@/components/ui/RichTextRenderer";
 import type { Media } from "@/../payload-types";
-
-// Rich text content structure
-interface RichTextNode {
-  type: string;
-  children?: RichTextChild[];
-  tag?: string;
-  listType?: string;
-}
-
-interface RichTextChild {
-  type: string;
-  text?: string;
-}
-
-interface RichTextContent {
-  root: {
-    type: string;
-    children: RichTextNode[];
-  };
-}
 
 // Helper function to get media URL
 function getMediaUrl(
@@ -47,70 +28,6 @@ function formatDate(dateString: string): string {
     month: "long",
     day: "numeric",
   });
-}
-
-// Helper function to render rich text content
-function renderRichText(
-  content: RichTextContent | null | undefined
-): React.JSX.Element {
-  if (!content || !content.root || !content.root.children) {
-    return <div></div>;
-  }
-
-  const renderNode = (node: RichTextNode, index: number): React.JSX.Element => {
-    if (node.type === "paragraph") {
-      return (
-        <p key={index} className="mb-4">
-          {node.children?.map((child: RichTextChild, childIndex: number) => {
-            if (child.type === "text") {
-              return <span key={childIndex}>{child.text}</span>;
-            }
-            return null;
-          })}
-        </p>
-      );
-    }
-    if (node.type === "heading") {
-      const HeadingTag = `h${node.tag}` as keyof React.JSX.IntrinsicElements;
-      const className =
-        node.tag === "h1"
-          ? "text-3xl font-bold mb-6"
-          : node.tag === "h2"
-          ? "text-2xl font-bold mb-4 mt-8"
-          : "text-xl font-semibold mb-3 mt-6";
-      return (
-        <HeadingTag key={index} className={className}>
-          {node.children?.map((child: RichTextChild, childIndex: number) => {
-            if (child.type === "text") {
-              return <span key={childIndex}>{child.text}</span>;
-            }
-            return null;
-          })}
-        </HeadingTag>
-      );
-    }
-    if (node.type === "list") {
-      const ListTag = node.listType === "number" ? "ol" : "ul";
-      return (
-        <ListTag key={index} className="mb-4 ml-6 list-disc">
-          {node.children?.map((child: RichTextNode, childIndex: number) => (
-            <li key={childIndex} className="mb-2">
-              {renderNode(child, childIndex)}
-            </li>
-          ))}
-        </ListTag>
-      );
-    }
-    return <div key={index}></div>;
-  };
-
-  return (
-    <div className="prose prose-lg max-w-none">
-      {content.root.children.map((node: RichTextNode, index: number) =>
-        renderNode(node, index)
-      )}
-    </div>
-  );
 }
 
 interface EventPageProps {
@@ -179,7 +96,7 @@ export default async function EventPage({ params }: EventPageProps) {
         />
 
         <section className="py-16 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Main Content */}
               <div className="lg:col-span-2">
@@ -196,9 +113,7 @@ export default async function EventPage({ params }: EventPageProps) {
                     </span>
                   </div>
 
-                  <div className="prose prose-lg max-w-none">
-                    {renderRichText(event.description)}
-                  </div>
+                  <RichTextRenderer content={event.description} />
                 </div>
 
                 {/* Agenda Section */}
@@ -208,7 +123,7 @@ export default async function EventPage({ params }: EventPageProps) {
                       Event Agenda
                     </h2>
                     <div className="bg-gray-50 rounded-lg p-6">
-                      {renderRichText(event.agenda)}
+                      <RichTextRenderer content={event.agenda} />
                     </div>
                   </div>
                 )}
