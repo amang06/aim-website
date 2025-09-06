@@ -148,40 +148,30 @@ export async function POST(request: NextRequest) {
       redirectUrl: redirectUrl,
     });
 
-    // Try server-side redirect first
-    try {
-      return NextResponse.redirect(redirectUrl);
-    } catch (redirectError) {
-      console.warn(
-        "Server-side redirect failed in POST, using client-side fallback:",
-        redirectError
-      );
+    // Use HTML redirect to ensure GET method
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Payment Processing</title>
+        <meta http-equiv="refresh" content="0; url=${redirectUrl}">
+        <script>
+          window.location.href = "${redirectUrl}";
+        </script>
+      </head>
+      <body>
+        <p>Redirecting...</p>
+        <p>If you are not redirected automatically, <a href="${redirectUrl}">click here</a>.</p>
+      </body>
+      </html>
+    `;
 
-      // Fallback: Return HTML with client-side redirect
-      const html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Payment Processing</title>
-          <meta http-equiv="refresh" content="0; url=${redirectUrl}">
-          <script>
-            window.location.href = "${redirectUrl}";
-          </script>
-        </head>
-        <body>
-          <p>Redirecting...</p>
-          <p>If you are not redirected automatically, <a href="${redirectUrl}">click here</a>.</p>
-        </body>
-        </html>
-      `;
-
-      return new NextResponse(html, {
-        status: 200,
-        headers: {
-          "Content-Type": "text/html",
-        },
-      });
-    }
+    return new NextResponse(html, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
   } catch (error) {
     console.error("Payment callback error:", error);
     return NextResponse.json(
@@ -304,40 +294,30 @@ export async function GET(request: NextRequest) {
       redirectUrl: redirectUrl,
     });
 
-    // Try server-side redirect first
-    try {
-      return NextResponse.redirect(redirectUrl);
-    } catch (redirectError) {
-      console.warn(
-        "Server-side redirect failed in GET, using client-side fallback:",
-        redirectError
-      );
+    // Use HTML redirect to ensure GET method
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Payment Processing</title>
+        <meta http-equiv="refresh" content="0; url=${redirectUrl}">
+        <script>
+          window.location.href = "${redirectUrl}";
+        </script>
+      </head>
+      <body>
+        <p>Redirecting...</p>
+        <p>If you are not redirected automatically, <a href="${redirectUrl}">click here</a>.</p>
+      </body>
+      </html>
+    `;
 
-      // Fallback: Return HTML with client-side redirect
-      const html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Payment Processing</title>
-          <meta http-equiv="refresh" content="0; url=${redirectUrl}">
-          <script>
-            window.location.href = "${redirectUrl}";
-          </script>
-        </head>
-        <body>
-          <p>Redirecting...</p>
-          <p>If you are not redirected automatically, <a href="${redirectUrl}">click here</a>.</p>
-        </body>
-        </html>
-      `;
-
-      return new NextResponse(html, {
-        status: 200,
-        headers: {
-          "Content-Type": "text/html",
-        },
-      });
-    }
+    return new NextResponse(html, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
   } catch (error) {
     console.error("Payment callback GET error:", error);
     // Fallback to POST handler

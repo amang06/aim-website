@@ -45,6 +45,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.webp", type: "image/webp" },
+      { url: "/images/logo.webp", type: "image/webp", sizes: "32x32" },
+    ],
+    apple: [{ url: "/images/logo.webp", type: "image/webp", sizes: "180x180" }],
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
@@ -89,6 +96,9 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.webp" type="image/webp" />
+        <link rel="apple-touch-icon" href="/images/logo.webp" />
       </head>
       <body className="font-sans antialiased">
         <a href="#main-content" className="skip-link">
