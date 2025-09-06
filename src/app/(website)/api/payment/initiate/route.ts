@@ -52,21 +52,98 @@ export async function POST(request: NextRequest) {
       feeAmount: totalAmount, // Save the total amount including GST
     };
 
-    console.log("Creating member with data:", {
-      membershipType,
-      status: "SUBMITTED",
-      feeAmount: totalAmount,
-    });
+    let member;
 
-    const member = await payload.create({
-      collection: "members",
-      data: memberDataToSave,
-    });
+    // Check if member already exists by CIN (registrationNumber)
+    if (memberData.registrationNumber) {
+      try {
+        const existingMembers = await payload.find({
+          collection: "members",
+          where: {
+            registrationNumber: {
+              equals: memberData.registrationNumber,
+            },
+          },
+          limit: 1,
+        });
 
-    console.log("Created member:", {
-      id: member.id,
-      status: member.status,
-    });
+        if (existingMembers.docs.length > 0) {
+          // Update existing member instead of creating new one
+          const existingMember = existingMembers.docs[0];
+          console.log("Found existing member with CIN:", {
+            id: existingMember.id,
+            companyName: existingMember.companyName,
+            currentStatus: existingMember.status,
+          });
+
+          member = await payload.update({
+            collection: "members",
+            id: existingMember.id,
+            data: {
+              ...memberDataToSave,
+              // Preserve the original creation date and other metadata
+              createdAt: existingMember.createdAt,
+            },
+          });
+
+          console.log("Updated existing member:", {
+            id: member.id,
+            status: member.status,
+            companyName: member.companyName,
+          });
+        } else {
+          // No existing member found, create new one
+          console.log(
+            "No existing member found, creating new member with data:",
+            {
+              membershipType,
+              status: "SUBMITTED",
+              feeAmount: totalAmount,
+              registrationNumber: memberData.registrationNumber,
+            }
+          );
+
+          member = await payload.create({
+            collection: "members",
+            data: memberDataToSave,
+          });
+
+          console.log("Created new member:", {
+            id: member.id,
+            status: member.status,
+            companyName: member.companyName,
+          });
+        }
+      } catch (error) {
+        console.error("Error checking for existing member:", error);
+        // Fallback to creating new member if check fails
+        member = await payload.create({
+          collection: "members",
+          data: memberDataToSave,
+        });
+        console.log("Created member (fallback):", {
+          id: member.id,
+          status: member.status,
+        });
+      }
+    } else {
+      // No CIN provided, create new member
+      console.log("No CIN provided, creating new member with data:", {
+        membershipType,
+        status: "SUBMITTED",
+        feeAmount: totalAmount,
+      });
+
+      member = await payload.create({
+        collection: "members",
+        data: memberDataToSave,
+      });
+
+      console.log("Created member:", {
+        id: member.id,
+        status: member.status,
+      });
+    }
 
     // Create PayU payment data
     const baseUrl =

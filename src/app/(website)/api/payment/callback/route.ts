@@ -227,13 +227,51 @@ export async function GET(request: NextRequest) {
 
     // Redirect to appropriate page
     const baseUrl =
-      process.env.NEXT_PUBLIC_SERVER_URL || request.nextUrl.origin;
+      process.env.NEXT_PUBLIC_SERVER_URL || process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : request.nextUrl.origin;
+
     const redirectUrl =
       status === "PAYMENT_SUBMITTED"
         ? `${baseUrl}/membership/payment/success?memberId=${memberId}`
         : `${baseUrl}/membership/payment/failure?memberId=${memberId}`;
 
-    return NextResponse.redirect(redirectUrl);
+    console.log("GET Redirecting to:", redirectUrl);
+
+    // Try server-side redirect first
+    try {
+      return NextResponse.redirect(redirectUrl);
+    } catch (redirectError) {
+      console.warn(
+        "Server-side redirect failed in GET, using client-side fallback:",
+        redirectError
+      );
+
+      // Fallback: Return HTML with client-side redirect
+      const html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Payment Processing</title>
+          <meta http-equiv="refresh" content="0; url=${redirectUrl}">
+          <script>
+            window.location.href = "${redirectUrl}";
+          </script>
+        </head>
+        <body>
+          <p>Redirecting...</p>
+          <p>If you are not redirected automatically, <a href="${redirectUrl}">click here</a>.</p>
+        </body>
+        </html>
+      `;
+
+      return new NextResponse(html, {
+        status: 200,
+        headers: {
+          "Content-Type": "text/html",
+        },
+      });
+    }
   } catch (error) {
     console.error("Payment callback GET error:", error);
     // Fallback to POST handler
