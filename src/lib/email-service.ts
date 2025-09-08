@@ -274,7 +274,7 @@ class EmailService {
         <div class="contact-info">
             <strong>Contact Information:</strong><br>
             Email: office@aim.ind.in<br>
-            Phone: +91 9415008282<br>
+            Phone: +91 7428382757<br>
             Website: www.aim.ind.in
         </div>
     </div>
@@ -318,7 +318,7 @@ If you have any questions or need assistance, please don't hesitate to contact u
 
 Contact Information:
 Email: office@aim.ind.in
-Phone: +91 9415008282
+Phone: +91 7428382757
 Website: www.aim.ind.in
 
 Thank you for choosing AIM. Together, we build a stronger India.

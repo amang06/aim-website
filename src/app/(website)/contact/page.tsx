@@ -235,7 +235,7 @@ export default function ContactPage() {
                         href="tel:+919415008282"
                         className="text-primary-600 hover:text-primary-700"
                       >
-                        +91 9415008282
+                        +91 7428382757
                       </a>
                     </div>
 

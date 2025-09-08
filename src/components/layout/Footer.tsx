@@ -203,7 +203,7 @@ const Footer = () => {
                   href="tel:+919415008282"
                   className="text-gray-300 hover:text-primary-400 transition-colors text-sm"
                 >
-                  +91 9415008282
+                  +91 7428382757
                 </a>
               </div>
 

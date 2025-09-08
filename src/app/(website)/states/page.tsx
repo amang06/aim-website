@@ -87,7 +87,7 @@ const statesData = [
       {
         name: "Lucknow",
         address: "68/3-4, Mill Road, Aishbagh, Lucknow-226004 U.P. (India)",
-        phone: "+91 9415008282",
+        phone: "+91 7428382757",
       },
       {
         name: "Varanasi",
