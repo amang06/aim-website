@@ -21,18 +21,18 @@ const leadership = [
     position: "President",
     image: "/images/leadership/manmohan-agarwal.webp",
     bio: "Mr Manmohan Agarwal serves as the President of the Association of Indian Manufacturers (AIM), bringing over four decades of industrial expertise and leadership to the organization.\n\nHe belongs to a reputed industrial house in Lucknow dealing in the manufacture of Paints & Pigments. Mr Agarwal is a Science Graduate (Gold Medalist) from Lucknow University – 1978 and a Chemical Engineer from UDCT Matunga, Mumbai – 1982.\n\nAfter completing Chemical Engineering, he served industries in Gujarat as a Chemical Engineer for 6-7 years, gaining valuable hands-on experience in industrial processes and management.\n\nIn 1989, Mr Agarwal launched his own industry, Manali Pigments Pvt. Ltd in Lucknow, which stands as the only pigment manufacturing industry in the entire North India. Under his visionary leadership, the company has grown into a significant player in the pigment industry, contributing to India's manufacturing sector.\n\nAs President of AIM, Mr Agarwal is committed to fostering the growth of MSMEs across India, advocating for industry-friendly policies, and creating opportunities for Indian manufacturers to compete globally. His extensive experience in both technical and business aspects of manufacturing makes him an invaluable leader for AIM's mission.",
-    company: "Manali Pigments Pvt. Ltd",
-    companyWebsite: "https://manalipigments.com",
-    linkedin: "https://linkedin.com/in/manmohan-agarwal",
+    // company: "Manali Pigments Pvt. Ltd",
+    // companyWebsite: "https://manalipigments.com",
+    // linkedin: "https://linkedin.com/in/manmohan-agarwal",
   },
   {
     name: "Kulmani Gupta",
     position: "Vice-President",
     image: "/images/leadership/kulmani-gupta.webp",
     bio: "Mr Kulmani Gupta serves as the Vice-President of the Association of Indian Manufacturers (AIM), bringing 27 years of industry experience and technological expertise to the organization.\n\nA distinguished technopreneur, Mr Gupta is a thoughtful brand strategist with 20 years of experience in implementing new technologies, building comprehensive solutions, and providing exceptional client services.\n\nKnown for his unprecedented networking skills, ambitious drive, and outstanding client servicing abilities, Mr Gupta founded Skynetiks Technologies (P) Ltd from the ground up and has successfully transformed it from a startup into one of India's established solution implementing companies.\n\nHis expertise spans across digital transformation, technology consulting, and business process optimization.\n\nAs Vice-President of AIM, Mr Gupta plays a crucial role in driving technological innovation within the manufacturing sector, helping MSMEs adopt modern technologies, and creating digital transformation strategies that enhance competitiveness. His deep understanding of both technology and business processes enables him to bridge the gap between traditional manufacturing and modern digital solutions, making him an essential leader in AIM's mission to modernize Indian manufacturing.",
-    company: "Skynetiks Technologies (P) Ltd",
-    companyWebsite: "https://skynetiks.com",
-    linkedin: "https://linkedin.com/in/kulmani-gupta",
+    // company: "Skynetiks Technologies (P) Ltd",
+    // companyWebsite: "https://skynetiks.com",
+    linkedin: "https://linkedin.com/in/kulmanigupta",
     personalWebsite: "https://kulmanigupta.com",
   },
   {
@@ -40,45 +40,45 @@ const leadership = [
     position: "Secretary General",
     image: "/images/leadership/umesh-batra.webp",
     bio: "Mr Umesh Batra serves as the Secretary General of the Association of Indian Manufacturers (AIM), bringing over 30 years of entrepreneurial and export experience to the organization.\n\nAn accomplished entrepreneur and exporter, Mr Batra has extensive experience in handicraft products and has traveled extensively across the globe, interacting with foreign clients and building long-lasting business relationships that have yielded significant results.\n\nHe holds an MBA degree and is professionally qualified in Computer Integrated Systems, which gives him a unique perspective on how systematic approaches can drive progressive outcomes in business.\n\nMr Batra's motto in life, 'Life is an adventure, so live it up,' reflects his dynamic approach to business and leadership.\n\nHis expertise in international trade, export-import operations, and global market dynamics makes him an invaluable asset to AIM's mission of promoting Indian manufacturers on the global stage.\n\nAs Secretary General, Mr Batra oversees the day-to-day operations of AIM, coordinates with various stakeholders, and ensures that the organization's strategic objectives are met efficiently. His extensive network of international contacts and deep understanding of global markets helps AIM create opportunities for Indian manufacturers to expand their reach worldwide.",
-    company: "Sai Saburi International",
-    companyWebsite: "https://saisaburiinternational.com/",
-    linkedin: "https://linkedin.com/in/umesh-batra",
+    // company: "Sai Saburi International",
+    // companyWebsite: "https://saisaburiinternational.com/",
+    linkedin: "https://www.linkedin.com/in/umesh-batra-3304862",
   },
   {
     name: "Abhishek Goel",
     position: "Treasurer",
     image: "/images/leadership/abhishek-goel.webp",
     bio: "Mr Abhishek Goel serves as the Treasurer of the Association of Indian Manufacturers (AIM), bringing extensive experience in business management and financial oversight to the organization.\n\nHe completed his Bachelor of Commerce from Mahatma Jyotiba Phule Vishwavidyalaya and joined his father as an associate in 1995 in the family business that manufactured conveyor chains used in Sugar, Khandsari, and Jaggery industries.\n\nCurrently, Mr Goel successfully runs two manufacturing units: 'SHAKUMBHARI ENGINEERS' which manufactures Conveyor Chains, and 'T.M.T. INDUSTRY' which manufactures teak and imported pine doors.\n\nHis hands-on experience in manufacturing operations, supply chain management, and business development gives him a comprehensive understanding of the challenges and opportunities facing MSMEs in India.\n\nAs Treasurer of AIM, Mr Goel is responsible for managing the organization's financial resources, ensuring transparency in financial operations, and providing strategic financial guidance to support AIM's mission. His practical experience in running manufacturing businesses enables him to understand the financial needs and constraints of MSMEs, making him an effective advocate for financial policies that support the growth of Indian manufacturers.",
-    company: "Shakumbhari Engineers & T.M.T. Industry",
-    companyWebsite: "https://shakumbhariengineers.com",
-    linkedin: "https://linkedin.com/in/abhishek-goel",
+    // company: "Shakumbhari Engineers & T.M.T. Industry",
+    // companyWebsite: "https://shakumbhariengineers.com",
+    // linkedin: "https://linkedin.com/in/abhishek-goel",
   },
   {
     name: "Vipul Kumar Rastogi",
     position: "Member",
     image: "/images/leadership/vipul-kumar-rastogi.webp",
     bio: "Dr Vipul Kumar Rastogi serves as a Member of the Association of Indian Manufacturers (AIM), bringing a unique combination of academic excellence and entrepreneurial experience to the organization.\n\nAt the young age of 20, Dr Rastogi established and successfully ran an NIIT Computer Centre in Kiratpur for three years, demonstrating his early entrepreneurial spirit and business acumen.\n\nHe has completed his Master's, M.Phil., and Ph.D. in History from C.C.S. University Meerut, showcasing his commitment to academic excellence and research.\n\nAdditionally, he holds a Post Graduate Diploma in Journalism & Mass Communication from Amity, Noida, which gives him strong communication and media relations skills.\n\nSince 2010, Dr Rastogi has been actively participating in various leadership roles in the Rotary Club and welfare associations of Industries in Bijnor, demonstrating his commitment to community service and industrial development.\n\nHis diverse background in education, technology, and community service makes him a well-rounded leader who can contribute to AIM's mission from multiple perspectives.\n\nAs a Member of AIM, Dr Rastogi brings valuable insights into educational initiatives, community engagement, and the development of programs that support the growth of MSMEs through knowledge sharing and skill development.",
-    company: "Devdaar Association",
-    companyWebsite: "https://devdaarassociation.com",
-    linkedin: "https://linkedin.com/in/vipul-rastogi",
+    // company: "Devdaar Association",
+    // companyWebsite: "https://devdaarassociation.com",
+    // linkedin: "https://linkedin.com/in/vipul-rastogi",
   },
   {
     name: "Lalit Kumar",
     position: "Member",
     image: "/images/leadership/lalit-kumar.webp",
     bio: "Mr Lalit Kumar serves as a Member of the Association of Indian Manufacturers (AIM), bringing over 50 years of diverse business experience and mentorship expertise to the organization.\n\nAn engineering graduate, Mr Kumar is a veteran in the business world and has successfully mentored many startups and aspiring entrepreneurs throughout his distinguished career.\n\nHis extensive experience spans across various business sectors, giving him a comprehensive understanding of the challenges and opportunities in different industries.\n\nMr Kumar has served in many social organizations and industrial associations as a prominent office bearer, demonstrating his commitment to community development and industrial growth.\n\nCurrently, he runs a packaging material manufacturing unit, Ashoka Box Industries, located in Harthala Industrial Area, Moradabad, UP.\n\nHis hands-on experience in manufacturing operations and his role as a mentor to numerous entrepreneurs make him an invaluable asset to AIM's mission of supporting and developing MSMEs.\n\nAs a Member of AIM, Mr Kumar contributes his wealth of experience in business development, entrepreneurship mentoring, and industrial association management. His ability to guide and support new entrepreneurs, combined with his deep understanding of manufacturing processes, helps AIM create effective programs and initiatives that support the growth and development of Indian manufacturers.",
-    company: "Ashoka Box Industries",
-    companyWebsite: "https://ashokabox.com",
-    linkedin: "https://linkedin.com/in/lalit-kapoor",
+    // company: "Ashoka Box Industries",
+    // companyWebsite: "https://ashokabox.com",
+    // linkedin: "https://linkedin.com/in/lalit-kapoor",
   },
   {
     name: "Sunil Rai",
     position: "Member",
     image: "/images/leadership/sunil-rai.webp",
     bio: "Mr Sunil Rai serves as a Member of the Association of Indian Manufacturers (AIM), bringing extensive experience in industrial development and community leadership to the organization.\n\nWith a strong background in manufacturing and industrial processes, Mr Rai has been instrumental in promoting sustainable manufacturing practices and technological innovation within the MSME sector.\n\nHis expertise in industrial automation and process optimization has helped numerous small and medium enterprises improve their operational efficiency and competitiveness.\n\nMr Rai has been actively involved in various industrial associations and has played a key role in organizing industry events, training programs, and networking initiatives that benefit the manufacturing community.\n\nHis commitment to fostering collaboration between different sectors of the manufacturing industry makes him a valuable member of AIM's leadership team.\n\nAs a Member of AIM, Mr Rai contributes his technical expertise and industry knowledge to help develop programs and initiatives that support the growth and modernization of Indian manufacturers.",
-    company: "Industrial Solutions Ltd",
-    companyWebsite: "https://industrialsolutions.com",
-    linkedin: "https://linkedin.com/in/sunil-rai",
+    // company: "Industrial Solutions Ltd",
+    // companyWebsite: "https://industrialsolutions.com",
+    // linkedin: "https://linkedin.com/in/sunil-rai",
   },
 ];
 
@@ -386,11 +386,11 @@ export default function AboutPage() {
                       <CardDescription className="text-lg font-medium mb-1">
                         {leader.position}
                       </CardDescription>
-                      {leader.company && (
+                      {/* {leader.company && (
                         <CardDescription className="text-primary-600 font-medium">
                           {leader.company}
                         </CardDescription>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </CardHeader>
@@ -423,7 +423,7 @@ export default function AboutPage() {
                         <span className="text-sm">LinkedIn</span>
                       </a>
                     )}
-                    {leader.companyWebsite && (
+                    {/* {leader.companyWebsite && (
                       <a
                         href={leader.companyWebsite}
                         target="_blank"
@@ -446,7 +446,7 @@ export default function AboutPage() {
                         </svg>
                         <span className="text-sm">Company Website</span>
                       </a>
-                    )}
+                    )} */}
                     {leader.personalWebsite && (
                       <a
                         href={leader.personalWebsite}
