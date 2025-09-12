@@ -208,9 +208,9 @@ export default function ContactPage() {
                       </svg>
                       <div>
                         <p className="text-gray-700">
-                          AIM House, 14 Institutional Area
+                          68/3-4, Mill Road, Aishbagh
                           <br />
-                          Lodhi Road, New Delhi - 110003
+                          Lucknow, Uttar Pradesh - 226004
                           <br />
                           India
                         </p>
