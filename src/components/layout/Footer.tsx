@@ -243,16 +243,22 @@ const Footer = () => {
             </div>
             <div className="flex space-x-6 text-sm">
               <Link
-                href="/privacy-policy"
+                href="/privacy"
                 className="text-gray-400 hover:text-primary-400 transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
-                href="/terms-of-service"
+                href="/terms-conditions"
                 className="text-gray-400 hover:text-primary-400 transition-colors"
               >
-                Terms of Service
+                Terms & Conditions
+              </Link>
+              <Link
+                href="/cancellation-refunds"
+                className="text-gray-400 hover:text-primary-400 transition-colors"
+              >
+                Cancellation & Refunds
               </Link>
               <Link
                 href="/sitemap.xml"
