@@ -27,7 +27,7 @@ const Header = () => {
         { name: "Apply Now", href: "/membership/apply" },
         {
           name: "Download Form",
-          href: "/downloads/membership-form.pdf",
+          href: "/downloads/AIM-Membership-Form.pdf",
           external: true,
         },
       ],
@@ -132,7 +132,6 @@ const Header = () => {
 
           {/* Search and Social Icons */}
           <div className="hidden lg:flex items-center space-x-3">
-
             <div className="flex space-x-2">
               <a
                 href="https://www.facebook.com/aimaukm/"

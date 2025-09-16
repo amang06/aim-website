@@ -11,8 +11,8 @@ const Footer = () => {
     { name: "Membership", href: "/membership" },
     // { name: "States & Chapters", href: "/states" },
     { name: "News & Events", href: "/news" },
-    { name: "Resources", href: "/resources" },
-    { name: "Downloads", href: "/downloads" },
+    // { name: "Resources", href: "/resources" },
+    // { name: "Downloads", href: "/downloads" },
     { name: "Contact Us", href: "/contact" },
   ];
 
@@ -20,7 +20,7 @@ const Footer = () => {
     { name: "Membership Types", href: "/membership/type" },
     { name: "Eligibility Criteria", href: "/membership/eligibility" },
     { name: "Apply Now", href: "/membership/apply" },
-    { name: "Download Form", href: "/downloads/membership-form.pdf" },
+    { name: "Download Form", href: "/downloads/AIM-Membership-Form.pdf" },
   ];
 
   return (
