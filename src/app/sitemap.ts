@@ -3,7 +3,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://aim.ind.in";
+  const baseUrl = "https://www.aim.ind.in";
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
